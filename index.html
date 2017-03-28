@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		*{
+			margin:0;
+			padding:0;
+		}
+		#wrap{
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+			text-align: center;
+		}
+		img{
+			width: 100px;
+		}
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<img src="images/1.jpg" alt="图片1">
+		<img src="images/2.jpg" alt="图片2">
+		<img src="images/3.jpg" alt="图片3">
+		<img src="images/4.jpg" alt="图片4">
+		<img src="images/5.jpg" alt="图片5">
+	</div>
+</body>
+<script type="text/javascript">
+	// 获取元素
+	var imgs = document.getElementsByTagName("img");
+	var wrap = document.getElementById("wrap");
+
+	// 添加事件：鼠标移动
+	document.onmousemove = function(e){
+		var e = e || window.event;
+
+		// 1. 获取鼠标移动时候的坐标
+		var mouseX = e.clientX;
+		var mouseY = e.clientY;
+
+		for(var i = 0; i < imgs.length; i++){
+			// 2. 得到图片中心点的坐标
+			// 2.1得到wrap的位置
+			var wrapTop = wrap.offsetTop;
+			// 2.2得到图片的位置
+			var imgLeft = imgs[i].offsetLeft;
+			// 2.3 计算图片中心点的坐标
+			var imgX = imgLeft + imgs[i].offsetWidth/2;
+			var imgY = wrapTop + imgs[i].offsetHeight/2;
+
+			// 3.计算鼠标坐标与图片中心点坐标之间的距离(长度)
+			var x = mouseX - imgX;
+			var y = mouseY - imgY;
+			var z = Math.sqrt(x*x + y*y);
+
+			// 4.判断距离
+			// 鼠标与图片中心点在300px范围内进行放大缩小
+			if(z <= 300){
+				// 计算放大缩小比例
+				var scale = (300 - z) / 300;
+				// 150：是图片放大的范围值
+				// 100：是图片初始的宽度
+				imgs[i].style.width = scale * 150 + 100 + "px";
+			}else{
+				// 当鼠标离开300px范围外，恢复原本的初始宽度
+				imgs[i].style.width = "100px";
+			}	
+		}
+
+		
+	}
+
+
+</script>
+</html>
